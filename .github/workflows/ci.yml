@@ -1,0 +1,87 @@
+name: Gmail Automation CI
+
+# =======================================
+# WHEN does this pipeline run?
+# Every time you push code to GitHub
+# or raise a Pull Request
+# =======================================
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    # =======================================
+    # WHAT machine runs this?
+    # GitHub gives us a free Ubuntu machine
+    # =======================================
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # =======================================
+      # STEP 1 — Download your code
+      # =======================================
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # =======================================
+      # STEP 2 — Install Node.js
+      # =======================================
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # =======================================
+      # STEP 3 — Install all npm packages
+      # =======================================
+      - name: Install dependencies
+        run: npm install
+
+      # =======================================
+      # STEP 4 — Install Java (Appium needs it)
+      # =======================================
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      # =======================================
+      # STEP 5 — Install Appium 2 globally
+      # =======================================
+      - name: Install Appium
+        run: |
+          npm install -g appium
+          appium driver install uiautomator2
+
+      # =======================================
+      # STEP 6 — Start Android Emulator
+      # GitHub provides Android emulator
+      # via this official action
+      # =======================================
+      - name: Run Android Emulator and Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          script: npm test
+
+      # =======================================
+      # STEP 7 — Upload Allure results
+      # So you can download and view the
+      # report from GitHub after each run
+      # =======================================
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results
+          path: allure-results/
+          retention-days: 30
