@@ -1,0 +1,7 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","251","should display at least one email in inbox","Gmail App - Inbox Tests","2026-03-22","passed","2026-03-22","","","",""
+"","130","should show navigation drawer button","Gmail App - Inbox Tests","2026-03-22","passed","2026-03-22","","","",""
+"","226","should display subject of first email","Gmail App - Inbox Tests","2026-03-22","passed","2026-03-22","","","",""
+"","782","should display Gmail inbox with Compose button","Gmail App - Inbox Tests","2026-03-22","passed","2026-03-22","","","",""
+"","169","should display Search bar on inbox screen","Gmail App - Inbox Tests","2026-03-22","passed","2026-03-22","","","",""
+"","361","should show Inbox label at top of mail list","Gmail App - Inbox Tests","2026-03-22","passed","2026-03-22","","","",""
